@@ -309,6 +309,22 @@ def tag_list(request):
 
     if request.method == "GET":
 
+        default_categories = [
+            "School",
+            "Work",
+            "Personal",
+            "Projects",
+            "Business",
+            "Technology",
+        ]
+
+        # Ensure every user has their own default categories.
+        for category_name in default_categories:
+            Tag.objects.get_or_create(
+                user_id=user_id,
+                name=category_name
+            )
+
         tags = Tag.objects.filter(
             user_id=user_id
         ).order_by("name")
