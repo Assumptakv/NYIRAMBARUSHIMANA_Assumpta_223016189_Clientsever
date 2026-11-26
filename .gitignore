@@ -1,0 +1,48 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django and local databases
+*.sqlite3
+db.sqlite3
+media/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+frontend/.env*
+!frontend/.env.example
+
+# Next.js generated files
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.vercel/
+
+# Logs and test output
+*.log
+coverage/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local folders and downloaded Supabase files
+.dir/
+Untitled query _ SQL Editor _ note-taking-app _ NoteTakingApp.html
+Untitled query _ SQL Editor _ note-taking-app _ NoteTakingApp_files/
+
+# Supabase downloaded browser files
+Untitled query _ SQL Editor _ note-taking-app _ NoteTakingApp _ Supabase*
+
+# Collected Django static files
+staticfiles/
