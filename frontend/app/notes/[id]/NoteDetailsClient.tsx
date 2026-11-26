@@ -1,4 +1,4 @@
-﻿
+
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
@@ -247,14 +247,14 @@ export default function NoteDetails({ id }: { id: string }) {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-10 text-slate-800">
-      <div className="mx-auto max-w-3xl">
+    <main className="min-h-screen w-full overflow-x-hidden bg-slate-50 px-4 py-6 text-slate-800 sm:px-6 sm:py-10">
+      <div className="mx-auto w-full max-w-3xl">
 
         <button
           onClick={() => router.push("/")}
-          className="mb-8 rounded-lg border bg-white px-4 py-2 hover:bg-slate-100"
+          className="mb-6 inline-flex min-h-11 items-center rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium hover:bg-slate-100 sm:mb-8"
         >
-          â† Back to My Notes
+          { "\u2190" } Back to My Notes
         </button>
 
         {loading ? (
@@ -266,7 +266,7 @@ export default function NoteDetails({ id }: { id: string }) {
             {error}
           </div>
         ) : note ? (
-          <article className="rounded-xl border bg-white p-8 shadow-sm">
+          <article className="w-full min-w-0 rounded-xl border bg-white p-4 shadow-sm sm:p-8">
 
             <p className="mb-3 text-sm font-medium text-indigo-600">
               Note Details
@@ -285,9 +285,9 @@ export default function NoteDetails({ id }: { id: string }) {
             )}
 
             {editing ? (
-              <form onSubmit={updateNote}>
+              <form onSubmit={updateNote} className="w-full min-w-0 space-y-2">
 
-                <h1 className="mb-5 text-2xl font-bold">
+                <h1 className="mb-5 text-xl font-bold sm:text-2xl">
                   Edit Note
                 </h1>
 
@@ -299,7 +299,7 @@ export default function NoteDetails({ id }: { id: string }) {
                   required
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="mb-5 w-full rounded-lg border p-3 outline-none focus:border-indigo-500"
+                  className="mb-5 block w-full min-w-0 rounded-lg border border-slate-300 p-3 text-base outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                 />
 
                 <label className="mb-2 block font-medium">
@@ -311,7 +311,7 @@ export default function NoteDetails({ id }: { id: string }) {
                   rows={6}
                   value={editBody}
                   onChange={(e) => setEditBody(e.target.value)}
-                  className="mb-6 w-full rounded-lg border p-3 outline-none focus:border-indigo-500"
+                  className="mb-6 block w-full min-w-0 resize-y rounded-lg border border-slate-300 p-3 text-base outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                 />
 
                 <div className="mb-6">
@@ -323,7 +323,7 @@ export default function NoteDetails({ id }: { id: string }) {
                     Select one or more categories for this note.
                   </p>
 
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                     {tags.map((tag) => (
                       <label
                         key={tag.id}
@@ -352,11 +352,11 @@ export default function NoteDetails({ id }: { id: string }) {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex w-full flex-col gap-3 sm:flex-row">
                   <button
                     type="submit"
                     disabled={saving}
-                    className="rounded-lg bg-indigo-600 px-5 py-2 text-white hover:bg-indigo-700 disabled:opacity-50"
+                    className="w-full rounded-lg bg-indigo-600 px-5 py-3 font-medium text-white hover:bg-indigo-700 disabled:opacity-50 sm:w-auto"
                   >
                     {saving ? "Saving..." : "Save Changes"}
                   </button>
@@ -364,7 +364,7 @@ export default function NoteDetails({ id }: { id: string }) {
                   <button
                     type="button"
                     onClick={cancelEditing}
-                    className="rounded-lg border px-5 py-2 hover:bg-slate-100"
+                    className="w-full rounded-lg border px-5 py-3 font-medium hover:bg-slate-100 sm:w-auto"
                   >
                     Cancel
                   </button>
@@ -401,10 +401,10 @@ export default function NoteDetails({ id }: { id: string }) {
                   </div>
                 </div>
 
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row">
                   <button
                     onClick={startEditing}
-                    className="rounded-lg bg-indigo-600 px-5 py-2 text-white hover:bg-indigo-700"
+                    className="w-full rounded-lg bg-indigo-600 px-5 py-3 font-medium text-white hover:bg-indigo-700 sm:w-auto"
                   >
                     Edit Note
                   </button>
@@ -412,7 +412,7 @@ export default function NoteDetails({ id }: { id: string }) {
                   <button
                     onClick={deleteNote}
                     disabled={deleting}
-                    className="rounded-lg bg-red-600 px-5 py-2 text-white hover:bg-red-700 disabled:opacity-50"
+                    className="w-full rounded-lg bg-red-600 px-5 py-3 font-medium text-white hover:bg-red-700 disabled:opacity-50 sm:w-auto"
                   >
                     {deleting ? "Deleting..." : "Delete Note"}
                   </button>
