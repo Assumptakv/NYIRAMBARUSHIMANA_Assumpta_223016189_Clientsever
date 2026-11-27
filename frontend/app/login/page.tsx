@@ -12,6 +12,7 @@ export default function LoginPage() {
 
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
+const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,11 @@ export default function LoginPage() {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              username: username.trim(),
+            },
+          },
         });
 
         if (error) throw error;
@@ -196,6 +202,24 @@ export default function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleAuth} className="space-y-5">
+
+            {mode === "register" && (
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-slate-700">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  required
+                  minLength={2}
+                  maxLength={30}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Choose a username"
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 p-3 text-slate-800 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+                />
+              </div>
+            )}
 
             <div>
               <label className="mb-2 block text-sm font-semibold text-slate-700">

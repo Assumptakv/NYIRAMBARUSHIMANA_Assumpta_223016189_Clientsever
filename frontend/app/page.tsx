@@ -57,7 +57,7 @@ export default function Home() {
 
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   // ==========================================
   // LOAD NOTES
@@ -149,7 +149,7 @@ export default function Home() {
         return;
       }
 
-      setUserEmail(data.session.user.email || "");
+      setDisplayName(data.session.user.user_metadata?.username || data.session.user.email?.split("@")[0] || "User");
 
       await Promise.all([
         loadNotes(data.session.access_token),
@@ -169,7 +169,7 @@ export default function Home() {
       if (!session) {
         router.replace("/login");
       } else {
-        setUserEmail(session.user.email || "");
+        setDisplayName(session.user.user_metadata?.username || session.user.email?.split("@")[0] || "User");
       }
     });
 
@@ -328,15 +328,15 @@ export default function Home() {
   // ==========================================
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800">
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 text-slate-800">
 
       {/* TOP NAVIGATION */}
 
-      <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 shadow-md backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 px-5 py-4 sm:flex-row sm:items-center sm:px-8">
 
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 text-xl font-extrabold text-white shadow-md">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-700 to-purple-700 text-xl font-extrabold text-white shadow-md">
               N
             </div>
 
@@ -353,11 +353,11 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
-                {userEmail.charAt(0).toUpperCase() || "U"}
+                {displayName.charAt(0).toUpperCase() || "U"}
               </div>
 
               <span className="max-w-[180px] truncate text-sm font-medium text-indigo-800">
-                {userEmail || "User Account"}
+                {displayName || "User Account"}
               </span>
             </div>
 
@@ -376,7 +376,7 @@ export default function Home() {
 
         {/* WELCOME BANNER */}
 
-        <div className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-700 via-blue-700 to-purple-700 p-7 text-white shadow-xl sm:p-10">
+        <div className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-800 via-indigo-700 to-purple-800 p-7 text-white shadow-xl sm:p-10">
 
           <div className="relative z-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
             <div>
@@ -396,11 +396,7 @@ export default function Home() {
 
             <button
               type="button"
-              onClick={() => {
-                setShowForm(!showForm);
-                setMessage("");
-                setError("");
-              }}
+              onClick={() => router.push("/notes/new")}
               className="shrink-0 rounded-xl bg-white px-6 py-3.5 font-bold text-indigo-700 shadow-lg transition hover:-translate-y-1 hover:bg-blue-50"
             >
               + Create New Note
@@ -415,7 +411,7 @@ export default function Home() {
 
         {message && (
           <div className="mb-6 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
-            <span className="text-xl">✓</span>
+            <span className="text-xl">&#10003;</span>
             <p className="text-sm font-medium">{message}</p>
           </div>
         )}
@@ -433,7 +429,7 @@ export default function Home() {
 
         <div className="mb-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
-          <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+          <div className="rounded-2xl border border-indigo-100 bg-white p-7 shadow-md transition duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-xl">
             <p className="text-sm font-semibold text-blue-700">
               Total Notes
             </p>
@@ -445,7 +441,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50 to-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+          <div className="rounded-2xl border border-purple-100 bg-white p-7 shadow-md transition duration-300 hover:-translate-y-1 hover:border-purple-300 hover:shadow-xl">
             <p className="text-sm font-semibold text-purple-700">
               Categories
             </p>
@@ -457,7 +453,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md sm:col-span-2 lg:col-span-1">
+          <div className="rounded-2xl border border-emerald-100 bg-white p-7 shadow-md transition duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-xl sm:col-span-2 lg:col-span-1">
             <p className="text-sm font-semibold text-emerald-700">
               Matching Notes
             </p>
@@ -603,9 +599,9 @@ export default function Home() {
 
         {/* SEARCH */}
 
-        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+        <div className="mb-6 rounded-2xl border border-indigo-100 bg-white p-4 shadow-md transition focus-within:border-indigo-300 focus-within:shadow-lg">
           <div className="flex items-center gap-3 px-2">
-            <span className="text-xl text-indigo-500">⌕</span>
+            <span className="text-xl text-indigo-500">&#8981;</span>
 
             <input
               value={search}
@@ -662,7 +658,7 @@ export default function Home() {
           </div>
         ) : filteredNotes.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-indigo-200 bg-white p-12 text-center shadow-sm">
-            <div className="mb-4 text-5xl">📚</div>
+            <div className="mb-4 text-5xl">&#128221;</div>
 
             <h3 className="text-xl font-bold text-slate-800">
               No notes found
@@ -689,13 +685,13 @@ export default function Home() {
             {filteredNotes.map((note, index) => (
               <article
                 key={note.id}
-                className={`group flex min-h-[260px] flex-col rounded-2xl border p-6 shadow-sm transition duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
+                className={`group flex min-h-[280px] flex-col rounded-3xl border p-7 shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl ${
                   cardColors[index % cardColors.length]
                 }`}
               >
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 text-xl shadow-sm">
-                    📝
+                    &#128221;
                   </div>
 
                   <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-slate-500">
@@ -737,10 +733,10 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => openNote(note.id)}
-                  className="flex w-full items-center justify-between rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
+                  className="flex w-full items-center justify-between rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-sm font-bold text-white shadow-md transition duration-300 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-200"
                 >
                   <span>Open Note</span>
-                  <span>→</span>
+                  <span>&#8594;</span>
                 </button>
               </article>
             ))}
@@ -755,7 +751,7 @@ export default function Home() {
           </p>
 
           <p className="mt-1 text-xs text-slate-400">
-            Your ideas. Your notes. Your space. © 2026
+            Your ideas. Your notes. Your space. &copy; 2026
           </p>
         </footer>
 
@@ -763,3 +759,13 @@ export default function Home() {
     </main>
   );
 }
+
+
+
+
+
+
+
+
+
+
